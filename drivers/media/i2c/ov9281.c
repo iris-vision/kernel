@@ -92,7 +92,7 @@
 
 //for SL
 #define OV9282_FPS		30
-#define OV9282_FLIP_ENABLE	1
+#define OV9282_FLIP_ENABLE	0
 #define EXP_DEFAULT_TIME_US	3000
 #define OV9282_DEFAULT_GAIN	1
 
@@ -359,8 +359,12 @@ static const struct regval ov9281_1280x800_30fps_regs[] = {
 	{0x3820, 0x40},
 	{0x3821, 0x04},
 #else
+	{0x3820, 0x40},
+	{0x3821, 0x00},
+	/*
 	{0x3820, 0x44},
 	{0x3821, 0x00},
+	*/
 #endif
 	{0x3881, 0x42},
 	{0x38b1, 0x00},
@@ -417,6 +421,19 @@ static const struct ov9281_mode supported_modes[] = {
 		.height = 800,
 		.max_fps = {
 			.numerator = 10000,
+			.denominator = 1200000,
+		},
+		.exp_def = 0x0320,
+		.hts_def = 0x02d8,
+		.vts_def = 0x0e48/4,
+		.reg_list = ov9281_1280x800_regs,
+	},
+
+	{
+		.width = 1280,
+		.height = 800,
+		.max_fps = {
+			.numerator = 10000,
 			.denominator = 300000,
 		},
 		.exp_def = 0x0320,
@@ -425,6 +442,7 @@ static const struct ov9281_mode supported_modes[] = {
 		.reg_list = ov9281_1280x800_30fps_regs,
 	},
 
+	/*
 	{
 		.width = 1280,
 		.height = 800,
@@ -437,6 +455,7 @@ static const struct ov9281_mode supported_modes[] = {
 		.vts_def = 0x038e,
 		.reg_list = ov9281_1280x800_regs,
 	},
+	*/
 };
 
 static const s64 link_freq_menu_items[] = {
@@ -1161,6 +1180,12 @@ static int ov9281_initialize_controls(struct ov9281 *ov9281)
 	h_blank = mode->hts_def - mode->width;
 	ov9281->hblank = v4l2_ctrl_new_std(handler, NULL, V4L2_CID_HBLANK,
 				h_blank, h_blank, 1, h_blank);
+	if (handler->error) {
+		ret = handler->error;
+		dev_err(&ov9281->client->dev,
+			"Failed to init h_blank controls(%d)\n", ret);
+		goto err_free_handler;
+	}
 	if (ov9281->hblank)
 		ov9281->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 
@@ -1169,23 +1194,52 @@ static int ov9281_initialize_controls(struct ov9281 *ov9281)
 				V4L2_CID_VBLANK, vblank_def,
 				OV9281_VTS_MAX - mode->height,
 				1, vblank_def);
-
+	if (handler->error) {
+		ret = handler->error;
+		dev_err(&ov9281->client->dev,
+			"Failed to init v_blank controls(%d)\n", ret);
+		goto err_free_handler;
+	}
+	/*
 	exposure_max = mode->vts_def - 4;
+	*/
+	exposure_max = mode->vts_def*4 - 4;
 	ov9281->exposure = v4l2_ctrl_new_std(handler, &ov9281_ctrl_ops,
 				V4L2_CID_EXPOSURE, OV9281_EXPOSURE_MIN,
 				exposure_max, OV9281_EXPOSURE_STEP,
 				mode->exp_def);
+
+	if (handler->error) {
+		ret = handler->error;
+		dev_err(&ov9281->client->dev,
+			"Failed to init exposure controls(%d)\n", ret);
+		goto err_free_handler;
+	}
 
 	ov9281->anal_gain = v4l2_ctrl_new_std(handler, &ov9281_ctrl_ops,
 				V4L2_CID_ANALOGUE_GAIN, OV9281_GAIN_MIN,
 				OV9281_GAIN_MAX, OV9281_GAIN_STEP,
 				OV9281_GAIN_DEFAULT);
 
+	if (handler->error) {
+		ret = handler->error;
+		dev_err(&ov9281->client->dev,
+			"Failed to init anal_gain  controls(%d)\n", ret);
+		goto err_free_handler;
+	}
+
 	ov9281->strobe = v4l2_ctrl_new_std(handler, &ov9281_ctrl_ops,
 				V4L2_CID_BRIGHTNESS, 1,
 				exposure_max/16, 1,
 				0xc8);
 
+	if (handler->error) {
+		ret = handler->error;
+		dev_err(&ov9281->client->dev,
+			"Failed to init strobe  controls(%d)\n", ret);
+		goto err_free_handler;
+	}
+	
 	ov9281->test_pattern = v4l2_ctrl_new_std_menu_items(handler,
 				&ov9281_ctrl_ops, V4L2_CID_TEST_PATTERN,
 				ARRAY_SIZE(ov9281_test_pattern_menu) - 1,
@@ -1197,6 +1251,7 @@ static int ov9281_initialize_controls(struct ov9281 *ov9281)
 			"Failed to init controls(%d)\n", ret);
 		goto err_free_handler;
 	}
+	
 
 	ov9281->subdev.ctrl_handler = handler;
 
