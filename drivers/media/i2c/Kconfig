@@ -40,33 +40,6 @@ config VIDEO_APTINA_PLL
 config VIDEO_CCS_PLL
 	tristate
 
-config VIDEO_DS90UB954
-       tristate "TI FDPLINK III support."
-       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-       help
-            Driver for TI FDPLINK III .
-
-config VIDEO_VEYECAM2M
-       tristate "VEYE 2M camera support."
-       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-       depends on MEDIA_CAMERA_SUPPORT
-       help
-               Driver for veye 2m camera.
-               
-config VIDEO_VEYEMVCAM
-       tristate "VEYE MV series camera support."
-       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-       depends on MEDIA_CAMERA_SUPPORT
-       help
-               Driver for veye mv series camera.
-
-config VIDEO_VEYEVBYONE
-       tristate "VEYE V-by-One hs toolkit support."
-       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-       depends on MEDIA_CAMERA_SUPPORT
-       help
-               Driver for vV-by-One hs toolkit .
-
 config VIDEO_AR0230
 	tristate "Aptina AR0230 sensor support"
 	depends on I2C && VIDEO_DEV
