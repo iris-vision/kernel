@@ -107,6 +107,12 @@ config VIDEO_BF3925
 	  To compile this driver as a module, choose M here: the
 	  module will be called BF3925.
 
+config VIDEO_DS90UB954
+       tristate "TI FDPLINK III support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       help
+            Driver for TI FDPLINK III .
+
 config VIDEO_GC02M2
 	tristate "GalaxyCore GC02M2 sensor support"
 	depends on I2C && VIDEO_DEV
@@ -1979,6 +1985,20 @@ config VIDEO_SR030PC30
 	depends on I2C && VIDEO_DEV
 	help
 	  This driver supports SR030PC30 VGA camera from Siliconfile
+
+config VIDEO_VEYECAM2M
+       tristate "VEYE 2M camera support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       depends on MEDIA_CAMERA_SUPPORT
+       help
+               Driver for VEYE 2M camera.
+               
+config VIDEO_VEYEMVCAM
+       tristate "VEYE MV series camera support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       depends on MEDIA_CAMERA_SUPPORT
+       help
+               Driver for VEYE MV series camera.
 
 config VIDEO_VS6624
 	tristate "ST VS6624 sensor support"
