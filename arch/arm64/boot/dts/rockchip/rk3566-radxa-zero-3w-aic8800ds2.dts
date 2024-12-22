@@ -8,10 +8,12 @@
 /dts-v1/;
 
 #include "rk3566-radxa-zero3.dtsi"
+//#include "rk3566-radxa-zero3-veyecam2m.dtsi"
+#include "rk3566-radxa-zero3-veyemvcam.dtsi"
 
 / {
 	model = "Radxa ZERO 3";
-	compatible = "radxa,zero3w-aic8800ds2", "radxa,zero3", "rockchip,rk3566";
+	compatible ="radxa,zero3w-aic8800ds2", "radxa,zero3", "rockchip,rk3566";
 
 	wireless_wlan: wireless-wlan {
 		compatible = "wlan-platdata";
