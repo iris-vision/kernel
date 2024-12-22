@@ -8,6 +8,12 @@ if VIDEO_V4L2
 comment "IR I2C driver auto-selected by 'Autoselect ancillary drivers'"
 	depends on MEDIA_SUBDRV_AUTOSELECT && I2C && RC_CORE
 
+config VIDEO_DS90UB954
+       tristate "TI FDPLINK III support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       help
+            Driver for TI FDPLINK III .
+
 config VIDEO_IR_I2C
 	tristate "I2C module for IR" if !MEDIA_SUBDRV_AUTOSELECT || EXPERT
 	depends on I2C && RC_CORE
@@ -20,6 +26,20 @@ config VIDEO_IR_I2C
 	  option.
 
 	  In doubt, say Y.
+
+config VIDEO_VEYECAM2M
+       tristate "VEYE 2M camera support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       depends on MEDIA_CAMERA_SUPPORT
+       help
+               Driver for VEYE 2M camera.
+               
+config VIDEO_VEYEMVCAM
+       tristate "VEYE MV series camera support."
+       depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+       depends on MEDIA_CAMERA_SUPPORT
+       help
+               Driver for VEYE MV series camera.
 
 #
 # V4L2 I2C drivers that aren't related with Camera support
