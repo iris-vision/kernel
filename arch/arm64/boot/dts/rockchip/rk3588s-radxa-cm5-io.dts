@@ -8,7 +8,6 @@
 /dts-v1/;
 
 #include "rk3588s-radxa-cm5.dtsi"
-#include "rk3588s-radxa-cm5-io-veyemvcam.dtsi"
 
 / {
 	model = "Radxa CM5 IO";
