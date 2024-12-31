@@ -42,24 +42,9 @@
 	status = "disabled";
 };
 
-&csi2_dphy3 {
-	status = "disabled";
-};
-
-&csi2_dphy4 {
-	status = "disabled";
-};
-
-&csi2_dphy5 {
-	status = "disabled";
-};
 
 &csi2_dphy0_hw {
 	status = "okay";
-};
-
-&csi2_dphy1_hw {
-	status = "disabled";
 };
 
 &i2c7 { // i2c# -- number represents the number of the controller on the SoC -- 4 or 7?
