@@ -16,15 +16,4 @@
 &rkcif_mmu {
 	status = "okay";
 };
-&rkisp {
-	status = "disabled";
-};
-
-&rkisp_vir0 {
-	status = "disabled";
-};
-
-&rkisp_vir1 {
-	status = "disabled";
-};
 
