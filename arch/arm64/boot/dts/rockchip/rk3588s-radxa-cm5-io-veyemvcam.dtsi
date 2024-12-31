@@ -4,32 +4,27 @@
  *
  */
 
-&csi2_dphy0 {
+&rkcif {
 	status = "okay";
-
-	ports {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		port@0 {
-			reg = <0>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			mipi_in_ucam: endpoint@1 { //cs2i dphy port name -- unsure what this node means
-				reg = <1>; // How is the register number decided?
-				remote-endpoint = <&mvcam_out>;
-				data-lanes = <1 2 3 4>;
-			};
-		};
-		port@1 {
-			reg = <1>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			csidphy0_out: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&mipi_csi0_input>;
-			};
-		};
-	};
+//	memory-region = <&cif_reserved>;
 };
+
+&rkcif_mipi_lvds_sditf {
+	status = "disabled";
+
+};
+&rkcif_mmu {
+	status = "okay";
+};
+&rkisp {
+	status = "disabled";
+};
+
+&rkisp_vir0 {
+	status = "disabled";
+};
+
+&rkisp_vir1 {
+	status = "disabled";
+};
+
