@@ -279,7 +279,3 @@ obj-$(CONFIG_VIDEO_VPX3220) += vpx3220.o
 obj-$(CONFIG_VIDEO_VS6624) += vs6624.o
 obj-$(CONFIG_VIDEO_WM8739) += wm8739.o
 obj-$(CONFIG_VIDEO_WM8775) += wm8775.o
-obj-$(CONFIG_VIDEO_DS90UB954) += ds90ub954.o
-obj-$(CONFIG_VIDEO_VEYEVBYONE) += veye_vbyone.o
-obj-$(CONFIG_VIDEO_VEYECAM2M) += veyecam2m.o
-obj-$(CONFIG_VIDEO_VEYEMVCAM) += veye_mvcam.o
