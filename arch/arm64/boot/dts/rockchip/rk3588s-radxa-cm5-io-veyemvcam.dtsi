@@ -15,8 +15,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_ucam: endpoint@1 { //cs2i dphy port name -- unsure what this node means
-				reg = <1>; // How is the register number decided?
+			mipi_in_ucam3: endpoint@4 {
+				reg = <4>;
 				remote-endpoint = <&mvcam_out>;
 				data-lanes = <1 2 3 4>;
 			};
@@ -28,7 +28,7 @@
 
 			csidphy0_out: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&mipi_csi0_input>;
+				remote-endpoint = <&mipi_csi2_input>;
 			};
 		};
 	};
@@ -65,8 +65,8 @@
         pinctrl-0 = <&cif_clk>; // Verify this is compatible with rk3588
 
         //power-gpios = <&pca9555 PCA_IO0_4 GPIO_ACTIVE_HIGH>;
-        reset-gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_HIGH>;  //unsure
-		pwdn-gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_HIGH>; //unsure
+        //reset-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
+        pwdn-gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
 
         firefly,clkout-enabled-index = <0>;
         rockchip,camera-module-index = <0>;
@@ -75,7 +75,7 @@
         rockchip,camera-module-lens-name = "NC";
         port {
 			mvcam_out: endpoint {
-				remote-endpoint = <&mipi_in_ucam>;
+				remote-endpoint = <&mipi_in_ucam3>;
                 data-lanes = <1 2 3 4>;
             };
         };
@@ -94,7 +94,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_csi0_input: endpoint@1 {
+			mipi_csi2_input: endpoint@1 {
 				reg = <1>;
 				remote-endpoint = <&csidphy0_out>;
 			};
@@ -105,7 +105,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_csi0_output: endpoint@0 {
+			mipi_csi2_output: endpoint@0 {
 				reg = <0>;
 				remote-endpoint = <&cif_mipi2_in0>;
 			};
@@ -122,7 +122,7 @@
 
 	port {
 		cif_mipi2_in0: endpoint {
-			remote-endpoint = <&mipi_csi0_output>; // Modified enpoint renamed
+			remote-endpoint = <&mipi_csi2_output>;
 		};
 	};
 };
