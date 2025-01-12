@@ -21,16 +21,6 @@
 				data-lanes = <1 2 3 4>;
 			};
 		};
-		port@1 {
-			reg = <1>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			csidphy0_out: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&mipi_csi0_input>;
-			};
-		};
 	};
 };
 
@@ -82,55 +72,3 @@
     };
 };
 
-&mipi0_csi2 { //Modified to mipi0_csi2
-	status = "okay";
-
-	ports {
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		port@0 {
-			reg = <0>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			mipi_csi0_input: endpoint@1 {
-				reg = <1>;
-				remote-endpoint = <&csidphy0_out>;
-			};
-		};
-
-		port@1 {
-			reg = <1>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			mipi_csi0_output: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&cif_mipi2_in0>;
-			};
-		};
-	};
-};
-
-&rkcif {
-	status = "okay";
-};
-
-&rkcif_mipi_lvds {
-	status = "okay";
-
-	port {
-		cif_mipi2_in0: endpoint {
-			remote-endpoint = <&mipi_csi0_output>; // Modified enpoint renamed
-		};
-	};
-};
-
-&rkcif_mipi_lvds_sditf {
-	status = "disabled";
-
-};
-&rkcif_mmu {
-	status = "okay";
-};
