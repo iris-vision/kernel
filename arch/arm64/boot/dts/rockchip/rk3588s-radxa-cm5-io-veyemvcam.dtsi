@@ -15,7 +15,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			endpoint@1 { //cs2i dphy port name -- unsure what this node means
+			mipi_in_ucam: endpoint@1 { //cs2i dphy port name -- unsure what this node means
 				reg = <1>; // How is the register number decided?
 				remote-endpoint = <&mvcam_out>;
 				data-lanes = <1 2 3 4>;
