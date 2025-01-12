@@ -3,23 +3,26 @@
  * Copyright (c) 2022 www.veye.cc
  *
  */
- 
+
 &csi2_dphy0 {
-    status = "okay";
+	status = "okay";
 
-    ports {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        port@0 {
-            reg = <0>;
-            endpoint {
-                remote-endpoint = <&dummy_endpoint>; // Add a placeholder
-                data-lanes = <1 2 3 4>;
-            };
-        };
-    };
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			endpoint@1 { //cs2i dphy port name -- unsure what this node means
+				reg = <1>; // How is the register number decided?
+				remote-endpoint = <&mvcam_out>;
+				data-lanes = <1 2 3 4>;
+			};
+		};
+	};
 };
-
-&dummy_endpoint {
+&mvcam_out {
     status = "disabled"; // Dummy node to avoid breaking kernel parsing
 };
