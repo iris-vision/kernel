@@ -6,6 +6,7 @@
 
 &csi2_dphy0 {
 	status = "okay";
+
 	ports {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -13,6 +14,12 @@
 			reg = <0>;
 			#address-cells = <1>;
 			#size-cells = <0>;
+
+			mipi_in_ucam: endpoint@4 { //cs2i dphy port name -- unsure what this node means
+				reg = <4>; // How is the register number decided?
+				remote-endpoint = <&mvcam_out>;
+				data-lanes = <1 2 3 4>;
+			};
 		};
 		port@1 {
 			reg = <1>;
@@ -35,10 +42,45 @@
 	status = "disabled";
 };
 
+
 &csi2_dphy0_hw {
 	status = "okay";
 };
 
+&i2c7 { // i2c# -- number represents the number of the controller on the SoC -- 4 or 7?
+	status = "okay";
+	clock-frequency = <400000>; // what frequency?
+        pinctrl-names = "default";
+        pinctrl-0 = <&i2c7m0_xfer>; // which node number m#?
+	
+	mvcam: mvcam@3b{
+        status = "okay";
+        compatible = "veye,mvcam"; 
+        reg = <0x3b>; // camera sensor's I2C register address
+        clocks = <&cru CLK_CIFOUT_OUT>; // Modified for rk3588s
+        clock-names = "xvclk";
+        //avdd-supply = <&vcc_mipi>;
+        power-domains = <&power RK3588_PD_VI>; // Modified for rk3588
+        pinctrl-names = "default";
+        pinctrl-0 = <&cif_clk>; // Verify this is compatible with rk3588
+
+        //power-gpios = <&pca9555 PCA_IO0_4 GPIO_ACTIVE_HIGH>;
+        reset-gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_HIGH>;  //unsure
+		pwdn-gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_HIGH>; //unsure
+
+        firefly,clkout-enabled-index = <0>;
+        rockchip,camera-module-index = <0>;
+        rockchip,camera-module-facing = "back";
+        rockchip,camera-module-name = "NC";
+        rockchip,camera-module-lens-name = "NC";
+        port {
+			mvcam_out: endpoint {
+				remote-endpoint = <&mipi_in_ucam>;
+                data-lanes = <1 2 3 4>;
+            };
+        };
+    };
+};
 
 &mipi0_csi2 { //Modified to mipi0_csi2
 	status = "okay";
@@ -71,6 +113,10 @@
 	};
 };
 
+&rkcif {
+	status = "okay";
+//	memory-region = <&cif_reserved>;
+};
 &rkcif_mipi_lvds {
 	status = "okay";
 
@@ -80,3 +126,22 @@
 		};
 	};
 };
+&rkcif_mipi_lvds_sditf {
+	status = "disabled";
+
+};
+&rkcif_mmu {
+	status = "okay";
+};
+
+//&rkisp {
+//	status = "disabled";
+//};
+
+//&rkisp_vir0 {
+//	status = "disabled";
+//};
+
+//&rkisp_vir1 {
+//	status = "disabled";
+//};
