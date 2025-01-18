@@ -63,6 +63,20 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
+			mipi_csi0_output: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&cif_mipi2_in0>;
+			};
+		};
+	};
+};
+
+&rkcif_mipi_lvds {
+	status = "okay";
+
+	port {
+		cif_mipi2_in0: endpoint {
+			remote-endpoint = <&mipi_csi0_output>; // Modified enpoint renamed
 		};
 	};
 };
