@@ -15,8 +15,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_ucam: endpoint@1 { //cs2i dphy port name -- unsure what this node means
-				reg = <1>; // How is the register number decided?
+			mipi_in_ucam: endpoint@4 { //cs2i dphy port name -- unsure what this node means
+				reg = <4>; // How is the register number decided?
 				remote-endpoint = <&mvcam_out>;
 				data-lanes = <1 2 3 4>;
 			};
@@ -65,8 +65,8 @@
         pinctrl-0 = <&cif_clk>; // Verify this is compatible with rk3588
 
         //power-gpios = <&pca9555 PCA_IO0_4 GPIO_ACTIVE_HIGH>;
-        reset-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
-        pwdn-gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
+        reset-gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_HIGH>;  //unsure
+		pwdn-gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_HIGH>; //unsure
 
         firefly,clkout-enabled-index = <0>;
         rockchip,camera-module-index = <0>;
