@@ -51,7 +51,7 @@
 	status = "okay";
 	clock-frequency = <400000>; // what frequency?
         pinctrl-names = "default";
-        pinctrl-0 = <&i2c7m0_xfer>; // which node number m#?
+        pinctrl-0 = <&i2c7m2_xfer>; // which node number m#?
 	
 	mvcam: mvcam@3b{
         status = "okay";
