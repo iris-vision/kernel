@@ -18,7 +18,7 @@
 			mipi_in_ucam: endpoint@4 { //cs2i dphy port name -- unsure what this node means
 				reg = <4>; // How is the register number decided?
 				remote-endpoint = <&mvcam_out>;
-				data-lanes = <1 2 3 4>;
+				data-lanes = <1 2>;
 			};
 		};
 		port@1 {
@@ -76,7 +76,7 @@
         port {
 			mvcam_out: endpoint {
 				remote-endpoint = <&mipi_in_ucam>;
-                data-lanes = <1 2 3 4>;
+                data-lanes = <1 2>;
             };
         };
     };
